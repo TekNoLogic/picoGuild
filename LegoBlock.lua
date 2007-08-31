@@ -169,7 +169,7 @@ end
   Begin Library Implementation
 ---------------------------------------------------------------------------]]
 local major = "LegoBlock-Beta0"
-local minor = tonumber(string.match("$Revision: 55555 $", "(%d+)") or 1)
+local minor = tonumber(string.match("$Revision: 51 $", "(%d+)") or 1)
 
 assert(DongleStub, string.format("%s requires DongleStub.", major))
 
@@ -551,9 +551,9 @@ local function OnDragStop(frame)
 	if InCombatLockdown() or not frame.isMoving then return end -- disable moving in combat, if not moving, jump out
 	-- here we do sticky stuff
 	StickyFrames:StopMoving(frame)
-	StickyFrames:AnchorFrame(frame)
 	frame:StopMovingOrSizing()
 	frame:SavePosition()
+	frame:RestorePosition()
 	frame.isMoving = false
 end
 
@@ -570,6 +570,7 @@ local function SetText(self, text, noresize)
 	local w = minWidth
 	if self.showIcon then w = w + self.Icon:GetWidth() end
 	if self.showText then w = w + self.Text:GetStringWidth() end
+	self.Text:SetWidth(w)
 	self:SetWidth(w)
 end
 
