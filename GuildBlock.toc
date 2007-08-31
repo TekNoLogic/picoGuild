@@ -1,0 +1,15 @@
+## Interface: 20100
+
+## Title: Guild Block
+## Notes: Minimalistic LegoBlock-based guild display
+## Author: Tekkub Stoutwrithe
+## Version: Alpha
+
+## OptionalDeps: Dongle
+
+## SavedVariables: GuildBlockDB
+
+Dongle.lua
+LegoBlock.lua
+
+GuildBlock.lua
