@@ -9,7 +9,7 @@ local L = {
 	online = "|Hplayer:%s|h[%s]|h has come online.";	["has come online"] = "has come online",
 	["has gone offline"] = "has gone offline",
 
-	["Guildless"] = "Guildless",
+	["No Guild"] = "No Guild",
 	["Not in a guild"] = "Not in a guild",
 }
 
@@ -27,7 +27,7 @@ for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%0
 -------------------------------------------
 
 GuildBlock = DongleStub("Dongle-1.0"):New("GuildBlock")
-local lego = DongleStub("LegoBlock-Beta0"):New("GuildBlock", "50/50", "Interface\\Addons\\GuildBlock\\icon")
+local lego = DongleStub("LegoBlock-Beta0"):New("GuildBlock", L["No Guild"], "Interface\\Addons\\GuildBlock\\icon")
 --~ if tekDebug then GuildBlock:EnableDebug(1, tekDebug:GetFrame("GuildBlock")) end
 
 
@@ -77,7 +77,7 @@ function GuildBlock:Enable()
 
 	lego:SetScript("OnUpdate", OnUpdate)
 	SortGuildRoster("class")
-	GuildRoster()
+	if IsInGuild() then GuildRoster() end
 end
 
 
