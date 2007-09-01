@@ -124,10 +124,12 @@ lego:SetScript("OnEnter", function(self)
 		GameTooltip:AddLine(GetGuildRosterMOTD(), 0, 1, 0, true)
 		GameTooltip:AddLine(" ")
 
+		local mylevel = UnitLevel("player")
 		for i=1,GetNumGuildMembers(true) do
 			local name, rank, rankIndex, level, class, area, note, officernote, connected, status = GetGuildRosterInfo(i)
 			if connected then
-				GameTooltip:AddDoubleLine(string.format("|cff%s%02d:%s|r", colors[class:upper()] or "000000", level or "", name), "|cffffff00"..note.. " "..officernote.." |cff00ff00("..rank..")")
+				local levelcolor = (level >= (mylevel - 5) and level <= (mylevel + 5)) and "|cff00ff00" or ""
+				GameTooltip:AddDoubleLine(string.format("%s%02d:|cff%s%s|r", levelcolor, level, colors[class:upper()] or "000000", name), "|cffffff00"..note.. " "..officernote.." |cff00ff00("..rank..")")
 			end
 		end
 	else
