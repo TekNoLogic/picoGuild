@@ -9,6 +9,9 @@
 
 ## SavedVariables: GuildBlockDB
 
+## LoadManagers: AddonLoader
+## X-LoadOn-Guild: true
+
 Dongle.lua
 LegoBlock.lua
 
