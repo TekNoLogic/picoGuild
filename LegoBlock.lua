@@ -169,7 +169,7 @@ end
   Begin Library Implementation
 ---------------------------------------------------------------------------]]
 local major = "LegoBlock-Beta0"
-local minor = tonumber(string.match("$Revision: 54 $", "(%d+)") or 1)
+local minor = 79
 
 assert(DongleStub, string.format("%s requires DongleStub.", major))
 
@@ -185,7 +185,6 @@ local bg = {
 local minWidth = 20
 local legos
 local legoGroups
-local scaleSet = false
 local LegoBlock = {}
 
 local TL, TR, BL, BR = "TOPLEFT", "TOPRIGHT", "BOTTOMLEFT", "BOTTOMRIGHT"
@@ -519,7 +518,7 @@ end
 -- originally copied from PerfectRaid, credit goes to cladhaire
 -- changed to use code by Mikk, all credit goes to him
 local function RestorePosition(frame)
-	if not scaleSet then return end
+	if not IsLoggedIn() then return end
 	local optionsTbl = frame.optionsTbl or defTbl
 	local x, y, anchor, s = optionsTbl.x, optionsTbl.y, optionsTbl.anchor, optionsTbl.scale
 	if s then
@@ -669,27 +668,22 @@ function LegoBlock:New(name,text, icon, optionsTbl, appendString)
 	return frame
 end
 
-local f
-
 -- [[ Misc library related stuff ]]--
 
 local function Activate(new, old)
 	new.legos = old and old.legos or {}
 	new.legoGroups = old and old.legoGroups or {}
-	new.scaleSet = old and old.scaleSet or scaleSet
 	new.frame = old and old.frame
 	legos = new.legos
 	legoGroups = new.legoGroups
-	f = new.frame
-	if not f then
-		f = CreateFrame('Frame')
-		f:SetScript("OnEvent", function(self, event)
-			LegoBlock.scaleSet = true
-			scaleSet = true;
+	if not IsLoggedIn() and not new.frame then
+		new.frame = CreateFrame('Frame')
+		new.frame:SetScript("OnEvent", function(self, event)
 			restoreAllPositions();
-			self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+			self:UnregisterEvent("PLAYER_LOGIN")
+			self:SetScript("OnEvent", nil)
 		end)
-		f:RegisterEvent("PLAYER_ENTERING_WORLD")
+		new.frame:RegisterEvent("PLAYER_LOGIN")
 	end
 end
 
