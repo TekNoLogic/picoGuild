@@ -18,6 +18,7 @@ local L = {
 --      Are you local?      --
 ------------------------------
 
+local mejoin = UnitName("player").." has joined the guild."
 local friends, colors = {}, {}
 for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%02x%02x%02x", color.r*255, color.g*255, color.b*255) end
 
@@ -86,7 +87,7 @@ end
 ------------------------------
 
 function GuildBlock:CHAT_MSG_SYSTEM(event, msg)
-	if string.find(msg, L["has come online"]) or string.find(msg, L["has gone offline"]) then dirty = true end
+	if string.find(msg, L["has come online"]) or string.find(msg, L["has gone offline"]) or msg == mejoin then dirty = true end
 end
 
 
