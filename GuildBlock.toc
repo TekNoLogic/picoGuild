@@ -1,4 +1,4 @@
-## Interface: 20300
+## Interface: 20400
 
 ## Title: Guild Block
 ## Notes: Minimalistic LegoBlock-based guild display
