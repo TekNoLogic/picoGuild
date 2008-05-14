@@ -28,8 +28,7 @@ for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%0
 -------------------------------------------
 
 GuildBlock = DongleStub("Dongle-1.0"):New("GuildBlock")
-local lego = DongleStub("LegoBlock-Beta0"):New("GuildBlock", L["No Guild"], "Interface\\Addons\\GuildBlock\\icon")
---~ if tekDebug then GuildBlock:EnableDebug(1, tekDebug:GetFrame("GuildBlock")) end
+local f = CreateFrame("Frame")
 
 
 local dataobj = {icon = "Interface\\Addons\\GuildBlock\\icon", text = L["No Guild"]}
@@ -63,24 +62,18 @@ end
 ---------------------------
 
 function GuildBlock:Initialize()
-	local blockdefaults = {
-		locked = false,
-		showIcon = true,
-		showText = true,
-		shown = true,
-	}
+	if GuildBlockDB and GuildBlockDB.profiles then GuildBlockDB = nil end
+	GuildBlockDB = GuildBlockDB or {}
 
-	self.db = self:InitializeDB("GuildBlockDB", {profile = {block = blockdefaults}}, "global")
+	LibStub:GetLibrary("tekBlock"):new("GuildBlock", GuildBlockDB)
 end
 
 
 function GuildBlock:Enable()
-	lego:SetDB(self.db.profile.block)
-
 	self:RegisterEvent("GUILD_ROSTER_UPDATE")
 	self:RegisterEvent("CHAT_MSG_SYSTEM")
 
-	lego:SetScript("OnUpdate", OnUpdate)
+	f:SetScript("OnUpdate", OnUpdate)
 	SortGuildRoster("class")
 	if IsInGuild() then GuildRoster() end
 end
@@ -102,7 +95,6 @@ function GuildBlock:GUILD_ROSTER_UPDATE()
 		for i = 1,GetNumGuildMembers(true) do if select(9, GetGuildRosterInfo(i)) then online = online + 1 end end
 		dataobj.text = string.format("%d/%d", online, GetNumGuildMembers(true))
 	else dataobj.text = L["No Guild"] end
-	lego:SetText(dataobj.text)
 end
 
 
@@ -113,7 +105,7 @@ end
 local function GetTipAnchor(frame)
 	local x,y = frame:GetCenter()
 	if not x or not y then return "TOPLEFT", "BOTTOMLEFT" end
-	local hhalf = (x > UIParent:GetWidth()/2) and "RIGHT" or "LEFT"
+	local hhalf = (x > UIParent:GetWidth()*2/3) and "RIGHT" or (x < UIParent:GetWidth()/3) and "LEFT" or ""
 	local vhalf = (y > UIParent:GetHeight()/2) and "TOP" or "BOTTOM"
 	return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
 end
@@ -147,10 +139,6 @@ function dataobj.OnEnter(self)
 end
 
 
-lego:SetScript("OnEnter", dataobj.OnEnter)
-lego:SetScript("OnLeave", dataobj.OnLeave)
-
-
 -----------------------------------------
 --      Click to open guild panel      --
 -----------------------------------------
@@ -163,8 +151,3 @@ function dataobj.OnClick()
 		GameTooltip:Hide()
 	end
 end
-
-
-lego:EnableMouse(true)
-lego:RegisterForClicks("anyUp")
-lego:SetScript("OnClick", dataobj.OnClick)
