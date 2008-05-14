@@ -32,6 +32,10 @@ local lego = DongleStub("LegoBlock-Beta0"):New("GuildBlock", L["No Guild"], "Int
 --~ if tekDebug then GuildBlock:EnableDebug(1, tekDebug:GetFrame("GuildBlock")) end
 
 
+local dataobj = {icon = "Interface\\Addons\\GuildBlock\\icon", text = L["No Guild"]}
+LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("GuildBlock", dataobj)
+
+
 ----------------------------------
 --      Server query timer      --
 ----------------------------------
@@ -96,8 +100,9 @@ function GuildBlock:GUILD_ROSTER_UPDATE()
 
 	if IsInGuild() then
 		for i = 1,GetNumGuildMembers(true) do if select(9, GetGuildRosterInfo(i)) then online = online + 1 end end
-		lego:SetText(string.format("%d/%d", online, GetNumGuildMembers(true)))
-	else lego:SetText(L["No Guild"]) end
+		dataobj.text = string.format("%d/%d", online, GetNumGuildMembers(true))
+	else dataobj.text = L["No Guild"] end
+	lego:SetText(dataobj.text)
 end
 
 
@@ -114,8 +119,8 @@ local function GetTipAnchor(frame)
 end
 
 
-lego:SetScript("OnLeave", function() GameTooltip:Hide() end)
-lego:SetScript("OnEnter", function(self)
+function dataobj.OnLeave() GameTooltip:Hide() end
+function dataobj.OnEnter(self)
  	GameTooltip:SetOwner(self, "ANCHOR_NONE")
 	GameTooltip:SetPoint(GetTipAnchor(self))
 	GameTooltip:ClearLines()
@@ -139,21 +144,27 @@ lego:SetScript("OnEnter", function(self)
 	end
 
 	GameTooltip:Show()
-end)
+end
 
 
-------------------------------------------
---      Click to open friend panel      --
-------------------------------------------
+lego:SetScript("OnEnter", dataobj.OnEnter)
+lego:SetScript("OnLeave", dataobj.OnLeave)
 
-lego:EnableMouse(true)
-lego:RegisterForClicks("anyUp")
-lego:SetScript("OnClick", function()
+
+-----------------------------------------
+--      Click to open guild panel      --
+-----------------------------------------
+
+function dataobj.OnClick()
 	if FriendsFrame:IsVisible() then HideUIPanel(FriendsFrame)
 	else
 		ToggleFriendsFrame(3)
 		FriendsFrame_Update()
 		GameTooltip:Hide()
 	end
-end)
+end
 
+
+lego:EnableMouse(true)
+lego:RegisterForClicks("anyUp")
+lego:SetScript("OnClick", dataobj.OnClick)
