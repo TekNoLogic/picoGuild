@@ -4,6 +4,8 @@
 ## Notes: Minimalistic LegoBlock-based guild display
 ## Author: Tekkub Stoutwrithe
 ## Version: Alpha
+## X-Website: http://www.tekkub.net/
+## X-Email: tekkub-wow@googlegroups.com
 
 ## OptionalDeps: Dongle
 
