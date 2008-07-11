@@ -1,0 +1,5 @@
+2.4.2.1-Beta
+    Add LDB-1.1
+    Remove tekBlock, we're no longer a display
+    Rename to picoGuild
+    Remove dongle
