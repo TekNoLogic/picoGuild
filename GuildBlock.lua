@@ -27,12 +27,9 @@ for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%0
 --      Namespace and all that shit      --
 -------------------------------------------
 
-GuildBlock = DongleStub("Dongle-1.0"):New("GuildBlock")
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("GuildBlock", {icon = "Interface\\Addons\\GuildBlock\\icon", text = L["No Guild"]})
 local f = CreateFrame("Frame")
-
-
-local dataobj = {icon = "Interface\\Addons\\GuildBlock\\icon", text = L["No Guild"]}
-LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("GuildBlock", dataobj)
+f:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
 
 
 ----------------------------------
@@ -41,13 +38,13 @@ LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("GuildBlock", dataobj)
 
 local MINDELAY, DELAY = 15, 300
 local elapsed, dirty = 0, false
-local function OnUpdate(self, el)
-	elapsed = elapsed + el
+f:Hide()
+f:SetScript("OnUpdate", function(self, elap)
+	elapsed = elapsed + elap
 	if (dirty and elapsed >= MINDELAY) or elapsed >= DELAY then
-		if IsInGuild() then GuildRoster()
-		else elapsed, dirty = 0, false end
+		if IsInGuild() then GuildRoster() else elapsed, dirty = 0, false end
 	end
-end
+end)
 
 
 local orig = GuildRoster
@@ -61,21 +58,16 @@ end
 --      Init/Enable      --
 ---------------------------
 
-function GuildBlock:Initialize()
-	if GuildBlockDB and GuildBlockDB.profiles then GuildBlockDB = nil end
-	GuildBlockDB = GuildBlockDB or {}
-
-	LibStub:GetLibrary("tekBlock"):new("GuildBlock", GuildBlockDB)
-end
-
-
-function GuildBlock:Enable()
+function f:PLAYER_LOGIN()
+	self:Show()
 	self:RegisterEvent("GUILD_ROSTER_UPDATE")
 	self:RegisterEvent("CHAT_MSG_SYSTEM")
 
-	f:SetScript("OnUpdate", OnUpdate)
 	SortGuildRoster("class")
 	if IsInGuild() then GuildRoster() end
+
+	self:UnregisterEvent("PLAYER_LOGIN")
+	self.PLAYER_LOGIN = nil
 end
 
 
@@ -83,12 +75,12 @@ end
 --      Event Handlers      --
 ------------------------------
 
-function GuildBlock:CHAT_MSG_SYSTEM(event, msg)
+function f:CHAT_MSG_SYSTEM(event, msg)
 	if string.find(msg, L["has come online"]) or string.find(msg, L["has gone offline"]) or msg == mejoin then dirty = true end
 end
 
 
-function GuildBlock:GUILD_ROSTER_UPDATE()
+function f:GUILD_ROSTER_UPDATE()
 	local online = 0
 
 	if IsInGuild() then
@@ -151,3 +143,10 @@ function dataobj.OnClick()
 		GameTooltip:Hide()
 	end
 end
+
+
+-----------------------------------
+--      Make rocket go now!      --
+-----------------------------------
+
+if IsLoggedIn() then f:PLAYER_LOGIN() else f:RegisterEvent("PLAYER_LOGIN") end
