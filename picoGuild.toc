@@ -1,15 +1,11 @@
 ## Interface: 20400
 
-## Title: Guild Block
-## Notes: Minimalistic LegoBlock-based guild display
+## Title: picoGuild
+## Notes: Minimalistic LibDataBroker-based guild display
 ## Author: Tekkub Stoutwrithe
 ## Version: Alpha
 ## X-Website: http://www.tekkub.net/
 ## X-Email: tekkub-wow@googlegroups.com
-
-## OptionalDeps: Dongle
-
-## SavedVariables: GuildBlockDB
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Guild: true
@@ -20,4 +16,4 @@ LibDataBroker-1.1\LibDataBroker-1.1.lua
 
 tekBlock\tekBlock.lua
 
-GuildBlock.lua
+picoGuild.lua

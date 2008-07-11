@@ -27,7 +27,7 @@ for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%0
 --      Namespace and all that shit      --
 -------------------------------------------
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("GuildBlock", {icon = "Interface\\Addons\\GuildBlock\\icon", text = L["No Guild"]})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("picoGuild", {icon = "Interface\\Addons\\picoGuild\\icon", text = L["No Guild"]})
 local f = CreateFrame("Frame")
 f:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
 
@@ -110,7 +110,7 @@ function dataobj.OnEnter(self)
 	GameTooltip:ClearLines()
 
 	if IsInGuild() then
-		GameTooltip:AddDoubleLine("GuildBlock", GetGuildInfo("player"))
+		GameTooltip:AddDoubleLine("picoGuild", GetGuildInfo("player"))
 		GameTooltip:AddLine(GetGuildRosterMOTD(), 0, 1, 0, true)
 		GameTooltip:AddLine(" ")
 
@@ -123,7 +123,7 @@ function dataobj.OnEnter(self)
 			end
 		end
 	else
-		GameTooltip:AddLine("GuildBlock")
+		GameTooltip:AddLine("picoGuild")
 		GameTooltip:AddLine(L["Not in a guild"])
 	end
 
