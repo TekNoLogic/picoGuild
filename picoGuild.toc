@@ -6,6 +6,7 @@
 ## Version: Alpha
 ## X-Website: http://www.tekkub.net/
 ## X-Email: tekkub-wow@googlegroups.com
+## X-Category: Misc
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Guild: true
@@ -13,5 +14,6 @@
 LibStub.lua
 CallbackHandler-1.0.lua
 LibDataBroker-1.1\LibDataBroker-1.1.lua
+tekKonfigAboutPanel.lua
 
 picoGuild.lua
