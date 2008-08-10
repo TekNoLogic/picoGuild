@@ -1,3 +1,7 @@
+2.4.3.2-Beta
+    Change officer note color so you can tell it apart from the public note
+    Use token class name instead of engrish one
+
 2.4.2.1-Beta
     Add LDB-1.1
     Remove tekBlock, we're no longer a display
