@@ -121,7 +121,8 @@ function dataobj.OnEnter(self)
 			local name, rank, rankIndex, level, class, area, note, officernote, connected, status, engclass = GetGuildRosterInfo(i)
 			if connected then
 				local levelcolor = (level >= (mylevel - 5) and level <= (mylevel + 5)) and "|cff00ff00" or ""
-				GameTooltip:AddDoubleLine(string.format("%s%02d:|cff%s%s|r", levelcolor, level, colors[engclass] or "000000", name), "|cffffff00"..note.. " |cffff00ff"..officernote.." |cff00ff00("..rank..")")
+				GameTooltip:AddDoubleLine(levelcolor.. (level < 10 and "0" or "").. level.. ":|cff".. (colors[engclass] or "000000").. name.. "|r (".. (area or "???").. ")",
+					"|cffffff00"..note.. " |cffff00ff"..officernote.." |cff00ff00("..rank..")")
 			end
 		end
 	else
