@@ -3,7 +3,7 @@
 ## Title: picoGuild
 ## Notes: Minimalistic LibDataBroker-based guild display
 ## Author: Tekkub Stoutwrithe
-## Version: Alpha
+## Version: 3.0.1.3
 ## X-Website: http://www.tekkub.net/
 ## X-Email: tekkub-wow@googlegroups.com
 ## X-Category: Misc
