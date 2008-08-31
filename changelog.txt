@@ -1,3 +1,7 @@
+3.0.1.3-Beta
+    Add location info to tooltip
+    Embed update
+
 2.4.3.2-Beta
     Change officer note color so you can tell it apart from the public note
     Use token class name instead of engrish one
