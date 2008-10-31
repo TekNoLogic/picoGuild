@@ -96,41 +96,36 @@ end
 --      Tooltip!      --
 ------------------------
 
-local function GetTipAnchor(frame)
-	local x,y = frame:GetCenter()
-	if not x or not y then return "TOPLEFT", "BOTTOMLEFT" end
-	local hhalf = (x > UIParent:GetWidth()*2/3) and "RIGHT" or (x < UIParent:GetWidth()/3) and "LEFT" or ""
-	local vhalf = (y > UIParent:GetHeight()/2) and "TOP" or "BOTTOM"
-	return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
-end
-
-
-function dataobj.OnLeave() GameTooltip:Hide() end
+local tip = LibStub("tektip-1.0").new(6, "LEFT", "LEFT", "CENTER", "RIGHT", "RIGHT", "RIGHT")
+function dataobj.OnLeave() tip:Hide() end
 function dataobj.OnEnter(self)
- 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
-	GameTooltip:SetPoint(GetTipAnchor(self))
-	GameTooltip:ClearLines()
+	tip:AnchorTo(self)
+
+	tip:AddLine("picoGuild")
 
 	if IsInGuild() then
-		GameTooltip:AddDoubleLine("picoGuild", GetGuildInfo("player"))
-		GameTooltip:AddLine(GetGuildRosterMOTD(), 0, 1, 0, true)
-		GameTooltip:AddLine(" ")
+		tip:AddLine("<"..GetGuildInfo("player")..">", 1, 1, 1)
+		tip:AddLine(GetGuildRosterMOTD(), 0, 1, 0, true)
+		tip:AddLine(" ")
 
 		local mylevel = UnitLevel("player")
 		for i=1,GetNumGuildMembers(true) do
 			local name, rank, rankIndex, level, class, area, note, officernote, connected, status, engclass = GetGuildRosterInfo(i)
 			if connected then
+				local cc = RAID_CLASS_COLORS[engclass]
+				local lr, lg, lb = 0, 1, 0
+				if level < (mylevel - 5) then lr, lg, lb = .6, .6, .6
+				elseif level > (mylevel + 5) then lr, lg, lb = 1, 0, 0 end
 				local levelcolor = (level >= (mylevel - 5) and level <= (mylevel + 5)) and "|cff00ff00" or ""
-				GameTooltip:AddDoubleLine(levelcolor.. (level < 10 and "0" or "").. level.. ":|cff".. (colors[engclass] or "000000").. name.. "|r (".. (area or "???").. ")",
-					"|cffffff00"..note.. " |cffff00ff"..officernote.." |cff00ff00("..rank..")")
+				tip:AddMultiLine((level < 10 and "0" or "")..level, name, area or "???", note, officernote, rank,
+					lr,lg,lb, cc.r,cc.g,cc.b, 1,1,1, nil,nil,nil, 1,1,0, .7,.7,1)
 			end
 		end
 	else
-		GameTooltip:AddLine("picoGuild")
-		GameTooltip:AddLine(L["Not in a guild"])
+		tip:AddLine(L["Not in a guild"])
 	end
 
-	GameTooltip:Show()
+	tip:Show()
 end
 
 
