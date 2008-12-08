@@ -27,7 +27,7 @@ for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%0
 --      Namespace and all that shit      --
 -------------------------------------------
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("picoGuild", {icon = "Interface\\Addons\\picoGuild\\icon", text = L["No Guild"]})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("picoGuild", {type = "data source", icon = "Interface\\Addons\\picoGuild\\icon", text = L["No Guild"]})
 local f = CreateFrame("Frame")
 f:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
 
