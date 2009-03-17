@@ -108,17 +108,18 @@ function dataobj.OnEnter(self)
 		tip:AddLine(GetGuildRosterMOTD(), 0, 1, 0, true)
 		tip:AddLine(" ")
 
-		local mylevel = UnitLevel("player")
+		local mylevel, myarea = UnitLevel("player"), GetRealZoneText()
 		for i=1,GetNumGuildMembers(true) do
 			local name, rank, rankIndex, level, class, area, note, officernote, connected, status, engclass = GetGuildRosterInfo(i)
 			if connected then
 				local cc = RAID_CLASS_COLORS[engclass]
-				local lr, lg, lb = 0, 1, 0
+				local lr, lg, lb, ar, ag, ab = 0, 1, 0, 1, 1, 1
 				if level < (mylevel - 5) then lr, lg, lb = .6, .6, .6
 				elseif level > (mylevel + 5) then lr, lg, lb = 1, 0, 0 end
+				if area == myArea then ar, ag, ab = 0, 1, 0 end
 				local levelcolor = (level >= (mylevel - 5) and level <= (mylevel + 5)) and "|cff00ff00" or ""
 				tip:AddMultiLine((level < 10 and "0" or "")..level, name, area or "???", note, officernote, rank,
-					lr,lg,lb, cc.r,cc.g,cc.b, 1,1,1, nil,nil,nil, 1,1,0, .7,.7,1)
+					lr,lg,lb, cc.r,cc.g,cc.b, ar,ag,ab, nil,nil,nil, 1,1,0, .7,.7,1)
 			end
 		end
 	else
