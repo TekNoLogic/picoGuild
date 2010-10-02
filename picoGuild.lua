@@ -97,9 +97,11 @@ end
 ------------------------
 
 local tip = LibStub("tektip-1.0").new(6, "LEFT", "LEFT", "CENTER", "RIGHT", "RIGHT", "RIGHT")
+local lastanchor
 function dataobj.OnLeave() tip:Hide() end
 function dataobj.OnEnter(self)
 	tip:AnchorTo(self)
+	lastanchor = self
 
 	tip:AddLine("picoGuild")
 
@@ -135,12 +137,8 @@ end
 -----------------------------------------
 
 function dataobj.OnClick()
-	if FriendsFrame:IsVisible() then HideUIPanel(FriendsFrame)
-	else
-		ToggleFriendsFrame(3)
-		FriendsFrame_Update()
-		GameTooltip:Hide()
-	end
+	ToggleGuildFrame()
+	if GuildFrame:IsShown() then tip:Hide() else dataobj.OnEnter(lastanchor) end
 end
 
 
