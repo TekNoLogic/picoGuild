@@ -63,10 +63,14 @@ function f:PLAYER_LOGIN()
 
 	self:Show()
 	self:RegisterEvent("GUILD_ROSTER_UPDATE")
+	self:RegisterEvent("GUILD_XP_UPDATE")
 	self:RegisterEvent("CHAT_MSG_SYSTEM")
 
 	SortGuildRoster("class")
-	if IsInGuild() then GuildRoster() end
+	if IsInGuild() then
+		QueryGuildXP()
+		GuildRoster()
+	end
 
 	self:UnregisterEvent("PLAYER_LOGIN")
 	self.PLAYER_LOGIN = nil
