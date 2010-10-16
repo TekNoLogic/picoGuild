@@ -1,3 +1,8 @@
+4.0.0.7-Beta
+    Open the new guild frame on click
+    Live only has partial guild functionality right now
+    new guild level and rep infos in cat
+
 3.1.0.6-Release
     Add zone highlighting to tooltip
 
