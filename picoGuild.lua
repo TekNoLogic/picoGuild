@@ -118,8 +118,7 @@ function dataobj.OnEnter(self)
 	if IsInGuild() then
 		local currentXP, remainingXP, dailyXP, maxDailyXP = UnitGetGuildXP("player")
 		local nextLevelXP = currentXP + remainingXP
-		local percentTotal = tostring(math.ceil((currentXP / nextLevelXP) * 100))
-		local percentDaily = tostring(math.ceil((dailyXP / maxDailyXP) * 100))
+		local percentDaily = math.ceil((dailyXP / maxDailyXP) * 100)
 
 		local gender = UnitSex("player")
 		local name, description, standingID, barMin, barMax, barValue = GetGuildFactionInfo()
