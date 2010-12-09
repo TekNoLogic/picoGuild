@@ -1,6 +1,4 @@
 
-local IHASCAT = GetGuildLevelEnabled()
-
 ----------------------------
 --      Localization      --
 ----------------------------
@@ -90,13 +88,9 @@ end
 function f:GUILD_ROSTER_UPDATE()
 	if IsInGuild() then
 	local total, online = GetNumGuildMembers()
-		if IHASCAT then
-			local currentXP, remainingXP, dailyXP, maxDailyXP = UnitGetGuildXP("player")
-			local level, capped = GetGuildLevel() + currentXP/(currentXP + remainingXP), dailyXP == maxDailyXP and "*" or ""
-			dataobj.text = string.format("Lv%.1f%s - %d/%d", level, capped, online, total)
-		else
-			dataobj.text = string.format("%d/%d", online, total)
-		end
+		local currentXP, remainingXP, dailyXP, maxDailyXP = UnitGetGuildXP("player")
+		local level, capped = GetGuildLevel() + currentXP/(currentXP + remainingXP), dailyXP == maxDailyXP and "*" or ""
+		dataobj.text = string.format("Lv%.1f%s - %d/%d", level, capped, online, total)
 	else dataobj.text = L["No Guild"] end
 end
 f.GUILD_XP_UPDATE = f.GUILD_ROSTER_UPDATE
@@ -129,11 +123,9 @@ function dataobj.OnEnter(self)
 		tip:AddLine(GetGuildRosterMOTD(), 0, 1, 0, true)
 		tip:AddLine(" ")
 
-		if IHASCAT then
-			tip:AddLine(string.format("Today:|cffffffff %d%% (%s left) - %s |rTNL", percentDaily, TextStatusBar_CapDisplayOfNumericValue(maxDailyXP - dailyXP), TextStatusBar_CapDisplayOfNumericValue(remainingXP)))
-			tip:AddLine(string.format("Rep:|cffffffff %s %d%% (%d/%d)", factionStandingtext, barValue / barMax * 100, barValue, barMax))
-			tip:AddLine(" ")
-		end
+		tip:AddLine(string.format("Today:|cffffffff %d%% (%s left) - %s |rTNL", percentDaily, TextStatusBar_CapDisplayOfNumericValue(maxDailyXP - dailyXP), TextStatusBar_CapDisplayOfNumericValue(remainingXP)))
+		tip:AddLine(string.format("Rep:|cffffffff %s %d%% (%d/%d)", factionStandingtext, barValue / barMax * 100, barValue, barMax))
+		tip:AddLine(" ")
 
 		local mylevel, myarea = UnitLevel("player"), GetRealZoneText()
 		for i=1,GetNumGuildMembers(true) do
