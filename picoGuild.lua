@@ -90,7 +90,7 @@ function f:GUILD_ROSTER_UPDATE()
 	local total, online = GetNumGuildMembers()
 		local currentXP, remainingXP, dailyXP, maxDailyXP = UnitGetGuildXP("player")
 		local level, capped = GetGuildLevel() + currentXP/(currentXP + remainingXP), dailyXP == maxDailyXP and "*" or ""
-		dataobj.text = string.format("Lv%.1f%s - %d/%d", level, capped, online, total)
+		dataobj.text = string.format("Lv%.1f%s - %d/%d", math.floor(level*10)/10, capped, online, total)
 	else dataobj.text = L["No Guild"] end
 end
 f.GUILD_XP_UPDATE = f.GUILD_ROSTER_UPDATE
