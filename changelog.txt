@@ -1,3 +1,6 @@
+4.0.0.9-Beta
+    Seems string.format rounds instead of truncating
+
 4.0.0.8-Beta
     remove wrath backcompat
     pprovost is holding it wrong
