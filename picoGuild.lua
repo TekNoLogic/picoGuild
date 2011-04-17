@@ -100,7 +100,7 @@ f.GUILD_XP_UPDATE = f.GUILD_ROSTER_UPDATE
 --      Tooltip!      --
 ------------------------
 
-local tip = LibStub("tektip-1.0").new(7, "LEFT", "LEFT", "CENTER", "RIGHT", "RIGHT", "RIGHT")
+local tip = LibStub("tektip-1.0").new(7, "LEFT", "LEFT", "LEFT", "CENTER", "RIGHT", "RIGHT", "RIGHT")
 local lastanchor
 function dataobj.OnLeave() tip:Hide() end
 function dataobj.OnEnter(self)
