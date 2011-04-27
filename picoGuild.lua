@@ -17,7 +17,8 @@ local L = {
 --      Are you local?      --
 ------------------------------
 
-local mejoin = UnitName("player").." has joined the guild."
+local myname = UnitName("player")
+local mejoin = myname.." has joined the guild."
 local friends, colors = {}, {}
 for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%02x%02x%02x", color.r*255, color.g*255, color.b*255) end
 
@@ -100,7 +101,7 @@ f.GUILD_XP_UPDATE = f.GUILD_ROSTER_UPDATE
 --      Tooltip!      --
 ------------------------
 
-local tip = LibStub("tektip-1.0").new(7, "LEFT", "LEFT", "LEFT", "CENTER", "RIGHT", "RIGHT", "RIGHT")
+local tip = LibStub("tektip-1.0").new(6, "LEFT", "LEFT", "CENTER", "RIGHT", "RIGHT", "RIGHT")
 local lastanchor
 function dataobj.OnLeave() tip:Hide() end
 function dataobj.OnEnter(self)
@@ -137,9 +138,9 @@ function dataobj.OnEnter(self)
 				elseif level > (mylevel + 5) then lr, lg, lb = 1, 0, 0 end
 				if area == myarea then ar, ag, ab = 0, 1, 0 end
 				local levelcolor = (level >= (mylevel - 5) and level <= (mylevel + 5)) and "|cff00ff00" or ""
-				local grouped =((UnitInParty(name) or UnitInRaid(name)) and true) and "@" or ""
-				tip:AddMultiLine(grouped,(level < 10 and "0" or "")..level, name, area or "???", note, officernote, rank,
-					1,1,0, lr,lg,lb, cc.r,cc.g,cc.b, ar,ag,ab, nil,nil,nil, 1,1,0, .7,.7,1)
+				local grouped = name ~= myname and (UnitInRaid(name) and " |cffffff00[R]" or UnitInParty(name) and " |cffffff00[P]") or ""
+				tip:AddMultiLine((level < 10 and "0" or "")..level, name..grouped, area or "???", note, officernote, rank,
+					lr,lg,lb, cc.r,cc.g,cc.b, ar,ag,ab, nil,nil,nil, 1,1,0, .7,.7,1)
 			end
 		end
 	else
