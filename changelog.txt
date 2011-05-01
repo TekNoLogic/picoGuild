@@ -1,3 +1,7 @@
+4.1.0.10-Beta
+    Display party/raid indicator more betterer
+    Identify party/raid members (thanks dcollier)
+
 4.0.0.9-Beta
     Seems string.format rounds instead of truncating
 
