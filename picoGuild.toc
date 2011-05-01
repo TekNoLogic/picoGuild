@@ -1,4 +1,4 @@
-## Interface: 40000
+## Interface: 40100
 
 ## Title: picoGuild
 ## Notes: Minimalistic LibDataBroker-based guild display
