@@ -63,12 +63,10 @@ function f:PLAYER_LOGIN()
 
 	self:Show()
 	self:RegisterEvent("GUILD_ROSTER_UPDATE")
-	self:RegisterEvent("GUILD_XP_UPDATE")
 	self:RegisterEvent("CHAT_MSG_SYSTEM")
 
 	SortGuildRoster("class")
 	if IsInGuild() then
-		QueryGuildXP()
 		GuildRoster()
 	end
 
@@ -89,12 +87,9 @@ end
 function f:GUILD_ROSTER_UPDATE()
 	if IsInGuild() then
 	local total, online = GetNumGuildMembers()
-		local currentXP, remainingXP = UnitGetGuildXP("player")
-		local level = GetGuildLevel() + currentXP/(currentXP + remainingXP)
-		dataobj.text = string.format("Lv%.1f - %d/%d", math.floor(level*10)/10, online, total)
+		dataobj.text = string.format("%d/%d", online, total)
 	else dataobj.text = L["No Guild"] end
 end
-f.GUILD_XP_UPDATE = f.GUILD_ROSTER_UPDATE
 
 
 ------------------------
@@ -111,8 +106,6 @@ function dataobj.OnEnter(self)
 	tip:AddLine("picoGuild")
 
 	if IsInGuild() then
-		local currentXP, remainingXP = UnitGetGuildXP("player")
-		local nextLevelXP = currentXP + remainingXP
 
 		local gender = UnitSex("player")
 		local name, description, standingID, barMin, barMax, barValue = GetGuildFactionInfo()
