@@ -1,3 +1,6 @@
+6.0.0.13-Beta
+    Remove guild level/XP stuff for 6.0 (thanks @hughescr and @Gnarfoz)
+
 5.0.1.12-Release
     Tagging release version
 
